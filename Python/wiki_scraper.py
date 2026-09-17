@@ -37,11 +37,13 @@ for line in sys.stdin:
             break
 
         except Exception as e:
-            wait = 2 ** attempt
+            if attempt == MAX_RETRIES - 1:
+                print(f"[ERROR] {target}: {e}")
+                break
 
+            wait = 2 ** attempt
             print(
                 f"[ERROR] {target}: {e}\n"
                 f"Waiting {wait}s before retrying..."
             )
-
             time.sleep(wait)
